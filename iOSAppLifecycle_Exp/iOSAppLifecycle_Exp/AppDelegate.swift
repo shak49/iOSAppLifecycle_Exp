@@ -27,13 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
         
     }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        let task = application.beginBackgroundTask(withName: "App Will Terminated", expirationHandler: { () -> Void in
-            // Do something to stop our background task or the app will be killed
-        })
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
     
 }
 
