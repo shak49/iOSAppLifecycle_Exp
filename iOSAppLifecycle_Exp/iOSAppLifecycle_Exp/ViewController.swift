@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UITableViewController {
     // SHAK: Properties
-    var names = ["Sam", "Nima", "James"]
+    var names = ["Sam", "Nima", "James", "Rihanna"]
     var cellID = "cell"
     
     override func viewDidLoad() {
