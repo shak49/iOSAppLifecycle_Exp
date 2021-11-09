@@ -36,7 +36,11 @@ extension AppDelegate {
     
     // SHAK: Functions
     func retriveState() -> State {
-        let storedState = UserDefaults.standard.data(forKey: Self.stateKey).flatMap({ try? JSONEncoder().decode(State.self) })
+        let storedState = UserDefaults.standard.data(forKey: Self.stateKey).flatMap {
+            try? JSONDecoder().decode(State.self, from: $0)
+        }
+        guard let state = storedState else { return State() }
+        return state
     }
     
     func store(state: State) {
