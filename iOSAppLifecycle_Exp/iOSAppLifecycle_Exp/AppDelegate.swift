@@ -21,7 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // SHAK: Functions
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        self.window = UIWindow()
+        self.window?.rootViewController = ViewController(state: self.state)
+        self.window?.rootViewController?.view.backgroundColor = .purple
+        self.window?.makeKeyAndVisible()
+        self.updateState(with: application, event: .appDidFinishLaunching)
         return true
     }
 
@@ -42,6 +46,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
     }
     
+    func applicationWillTerminate(_ application: UIApplication) {
+        self.updateState(with: application, event: .appWillTerminate)
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        self.updateState(with: application, event: .appDidBecomeActive)
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        self.updateState(with: application, event: .appWillResignActive)
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        self.updateState(with: application, event: .appDidEnterBackground)
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        self.updateState(with: application, event: .appWillEnterForeground)
+    }
 }
 
 extension AppDelegate {
@@ -61,5 +84,10 @@ extension AppDelegate {
         guard let stateData = try? JSONEncoder().encode(state) else { return }
         UserDefaults.standard.setValue(stateData, forKey: Self.stateKey)
     }
+    
+    fileprivate func updateState(with application: UIApplication, event kind: Event.Kind) {
+        let event = Event(with: application, event: kind)
+        self.state = self.state.byAppending(event: event)
+      }
 }
 
