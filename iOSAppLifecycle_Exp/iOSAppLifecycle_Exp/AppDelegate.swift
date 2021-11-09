@@ -11,6 +11,13 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     // SHAK: Properties
+    var window: UIWindow?
+    var state: State! {
+        didSet {
+            self.store(state: self.state)
+            (self.window?.rootViewController as? ViewController)?.state = state
+        }
+    }
     
     // SHAK: Functions
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -28,6 +35,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        self.state = self.retrieveState()
+            let event = Event(with: application, event: .appWillFinishLaunching)
+            self.state = self.state.byAppending(event: event)
+            return true
+    }
+    
 }
 
 extension AppDelegate {
@@ -35,7 +49,7 @@ extension AppDelegate {
     static let stateKey = "persistent_state_key"
     
     // SHAK: Functions
-    func retriveState() -> State {
+    func retrieveState() -> State {
         let storedState = UserDefaults.standard.data(forKey: Self.stateKey).flatMap {
             try? JSONDecoder().decode(State.self, from: $0)
         }
