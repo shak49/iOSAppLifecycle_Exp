@@ -30,5 +30,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
-
+extension AppDelegate {
+    // SHAK: Properties
+    static let stateKey = "persistent_state_key"
+    
+    // SHAK: Functions
+    func retriveState() -> State {
+        let storedState = UserDefaults.standard.data(forKey: Self.stateKey).flatMap({ try? JSONEncoder().decode(State.self) })
+    }
+    
+    func store(state: State) {
+        guard let stateData = try? JSONEncoder().encode(state) else { return }
+        UserDefaults.standard.setValue(stateData, forKey: Self.stateKey)
+    }
+}
 
