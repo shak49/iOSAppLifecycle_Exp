@@ -7,19 +7,40 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class ViewController: UIViewController {
     // SHAK: Properties
 //    var names = ["Sam", "Nima", "James", "Rihanna", "Nirvana"]
 //    var cellID = "cell"
     
+    // SHAK: Outlets
+    @IBOutlet weak var viewOne: UIView!
+    @IBOutlet weak var viewTwo: UIView!
+    @IBOutlet weak var viewThree: UIView!
+    @IBOutlet weak var viewFour: UIView!
+    @IBOutlet weak var themeSegment: UISegmentedControl!
+    
+    
+    // SHAK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 //        navigationController?.navigationBar.prefersLargeTitles = true
 //        title = "Names List"
 //        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        viewOne.backgroundColor = UIColor(named: "ColorOne")
+        viewTwo.backgroundColor = UIColor(named: "ColorTwo")
+        viewThree.backgroundColor = UIColor(named: "ColorThree")
+        viewFour.backgroundColor = UIColor(named: "ColorFour")
+        themeSegment.selectedSegmentIndex = UserDefaultManager.shared.theme.rawValue
     }
     
+    // SHAK: Actions
+    @IBAction func themeSegment(_ sender: UISegmentedControl) {
+        UserDefaultManager.shared.theme = Theme(rawValue: sender.selectedSegmentIndex) ?? .device
+        self.view.window?.overrideUserInterfaceStyle = UserDefaultManager.shared.theme.getUserInterfaceStyle()
+    }
+    
+    // SHAK: Data Source
 //    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return names.count
 //    }
