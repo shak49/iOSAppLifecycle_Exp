@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController =  rootViewController
             window?.makeKeyAndVisible()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                NotificationCenter.default.post(name: NSNotification.Name ?? "", object: nil, userInfo: connectionOptions.notificationResponse?.notification.request.content.userInfo)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Notify User"), object: nil, userInfo: connectionOptions.notificationResponse?.notification.request.content.userInfo)
             }
         }
 //        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
